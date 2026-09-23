@@ -5654,11 +5654,16 @@
   <body>
     <!-- ===== Sincronização com Firebase Realtime Database ===== -->
     <script>
-      // 1) Cole aqui o endereço do seu Realtime Database (Firebase > Realtime Database > Dados)
-      window.FIREBASE_CONFIG = {
-        databaseURL: "https://SEU-PROJETO-default-rtdb.firebaseio.com",
-      };
-    </script>
+     window.FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCmgQb7to2dh5Dwy2A0W_HnWC63L9LRvGI",
+  authDomain: "apascentando-6146e.firebaseapp.com",
+  databaseURL: "https://apascentando-6146e-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "apascentando-6146e",
+  storageBucket: "apascentando-6146e.firebasestorage.app",
+  messagingSenderId: "248544763810",
+  appId: "1:248544763810:web:6981b67ae6185f5de55cfb",
+  measurementId: "G-JTR7QXMPMV"
+}
     <script>
       (() => {
         const BASE = (window.FIREBASE_CONFIG.databaseURL || "").replace(/\/+$/, "");
