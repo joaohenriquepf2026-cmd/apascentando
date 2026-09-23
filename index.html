@@ -5652,104 +5652,26 @@
     </style>
   </head>
   <body>
-    <!-- ===== Sincronização com Firebase Realtime Database ===== -->
-    <script>
-     window.FIREBASE_CONFIG = {
-  apiKey: "AIzaSyCmgQb7to2dh5Dwy2A0W_HnWC63L9LRvGI",
-  authDomain: "apascentando-6146e.firebaseapp.com",
-  databaseURL: "https://apascentando-6146e-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "apascentando-6146e",
-  storageBucket: "apascentando-6146e.firebasestorage.app",
-  messagingSenderId: "248544763810",
-  appId: "1:248544763810:web:6981b67ae6185f5de55cfb",
+    <!-- ===== Firebase Realtime Database ===== -->
+<script>
+  window.FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCmgQb7to2dh5Dwy2A0W_HnWC63L9LRvGI",
+    authDomain: "apascentando-6146e.firebaseapp.com",
+    databaseURL: "https://apascentando-6146e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "apascentando-6146e",
+    storageBucket: "apascentando-6146e.firebasestorage.app",
+    messagingSenderId: "248544763810",
+    appId: "1:248544763810:web:6981b67ae6185f5de55cfb",
     measurementId: "G-JTR7QXMPMV"
-};
+  };
 
-      (() => {
-        const BASE = (window.FIREBASE_CONFIG.databaseURL || "").replace(/\/+$/, "");
-        const ENABLED = BASE && !BASE.includes("SEU-PROJETO");
-        const ROOT = "gi-apascentando";
-        const KEYS = [
-          "gi-apascentando-members",
-          "gi-apascentando-congregations",
-          "gi-apascentando-finances",
-        ];
-        const PENDING = "gi-apascentando-sync-pending";
-        const urlFor = (key) => `${BASE}/${ROOT}/${key}.json`;
-        const nativeSet = Storage.prototype.setItem;
-        const nativeRemove = Storage.prototype.removeItem;
+  window.__firebaseSync = {
+    enabled: true,
+    lastError: null
+  };
 
-        window.__firebaseSync = { enabled: ENABLED, lastError: null };
-        if (!ENABLED) {
-          console.info("[Firebase] databaseURL não configurado: dados só neste navegador.");
-          return;
-        }
-
-        const getPending = () => {
-          try { return JSON.parse(localStorage.getItem(PENDING) || "[]"); } catch { return []; }
-        };
-        const setPending = (list) =>
-          nativeSet.call(localStorage, PENDING, JSON.stringify([...new Set(list)]));
-
-        const push = (key) => {
-          const raw = localStorage.getItem(key);
-          return fetch(urlFor(key), {
-            method: raw === null ? "DELETE" : "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: raw === null ? undefined : raw,
-            keepalive: true,
-          })
-            .then((r) => {
-              if (!r.ok) throw new Error("HTTP " + r.status);
-              setPending(getPending().filter((k) => k !== key));
-            })
-            .catch((err) => {
-              window.__firebaseSync.lastError = String(err);
-              console.warn("[Firebase] falha ao enviar", key, err);
-              setPending([...getPending(), key]);
-            });
-        };
-
-        const flush = () => getPending().forEach(push);
-
-        // 2) Ao abrir: baixa os dados do Firebase para o navegador antes do app iniciar
-        try {
-          const xhr = new XMLHttpRequest();
-          xhr.open("GET", `${BASE}/${ROOT}.json`, false);
-          xhr.send();
-          if (xhr.status === 200) {
-            const remote = JSON.parse(xhr.responseText || "null") || {};
-            const pending = getPending();
-            KEYS.forEach((key) => {
-              if (pending.includes(key)) return; // alteração local ainda não enviada
-              if (remote[key] !== undefined && remote[key] !== null) {
-                nativeSet.call(localStorage, key, JSON.stringify(remote[key]));
-              } else if (localStorage.getItem(key) !== null) {
-                setPending([...getPending(), key]); // envia dados locais que o banco não tem
-              }
-            });
-          } else {
-            window.__firebaseSync.lastError = "HTTP " + xhr.status;
-          }
-        } catch (err) {
-          window.__firebaseSync.lastError = String(err);
-          console.warn("[Firebase] sem conexão, usando dados locais", err);
-        }
-
-        // 3) Toda gravação local também vai para o Firebase
-        Storage.prototype.setItem = function (key, value) {
-          nativeSet.call(this, key, value);
-          if (this === localStorage && KEYS.includes(key)) push(key);
-        };
-        Storage.prototype.removeItem = function (key) {
-          nativeRemove.call(this, key);
-          if (this === localStorage && KEYS.includes(key)) push(key);
-        };
-
-        window.addEventListener("online", flush);
-        setTimeout(flush, 0);
-      })();
-    </script>
+  console.log("[Firebase] Configuração carregada.");
+</script>
     <div id="root"></div>
     <script>
       window.__GI_FILE_MODE = location.protocol === "file:";
