@@ -5655,18 +5655,25 @@
     <div id="root"></div>
     <script>
       window.__GI_FILE_MODE = location.protocol === "file:";
-    </script>
-    const firebaseConfig = {
-  apiKey: "AIzaSyCmgQb7to2dh5Dwy2A0W_HnWC63L9LRvGI",
-  authDomain: "apascentando-6146e.firebaseapp.com",
-  databaseURL: "https://apascentando-6146e-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "apascentando-6146e",
-  storageBucket: "apascentando-6146e.firebasestorage.app",
-  messagingSenderId: "248544763810",
-  appId: "1:248544763810:web:6981b67ae6185f5de55cfb",
-  measurementId: "G-JTR7QXMPMV"
-};
-    <script>
+    <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-database-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCmgQb7to2dh5Dwy2A0W_HnWC63L9LRvGI",
+    authDomain: "apascentando-6146e.firebaseapp.com",
+    databaseURL: "https://apascentando-6146e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "apascentando-6146e",
+    storageBucket: "apascentando-6146e.firebasestorage.app",
+    messagingSenderId: "248544763810",
+    appId: "1:248544763810:web:6981b67ae6185f5de55cfb",
+    measurementId: "G-JTR7QXMPMV"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  window.firebaseDb = firebase.database();
+</script>
       var Jm = (a) => {
         throw TypeError(a);
       };
